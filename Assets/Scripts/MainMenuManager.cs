@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 [RequireComponent(typeof(Animator))]
 public class MainMenuManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private Button continueGameButton;
     [SerializeField] private Button nameInputContinueButton;
-    [SerializeField] private InputField nameInputField;
+    [SerializeField] private TMP_InputField nameInputField;
 
     private Animator anim;
     private bool hasSaveInfo = false;
@@ -21,12 +22,17 @@ public class MainMenuManager : MonoBehaviour
         //see if player has save info or not and set interactablity of continue button
         hasSaveInfo = !PlayerPrefs.GetString("SaveData", "null").Equals("null");
         continueGameButton.interactable = hasSaveInfo;
+
+        //NOTE: update settings slider values based on static values in AudioSystem
     }
+
+    //used by each button to cue SFX
+    public void ButtonPressed() => AudioSystem.Instance.ButtonSFX();
 
     //called at the end of each screen fade to transition to the game scene
     public void StartGame()
     {
-        //put scene transition here
+        //NOTE: put scene transition here
     }
 
     //home button methods
@@ -35,12 +41,23 @@ public class MainMenuManager : MonoBehaviour
     public void SettingsButton() => anim.SetTrigger("HomeToSettings");
 
     //name input methods
-    public void OnNameInputChanged()
+    public void OnNameInputChanged(string name)
     {
+        //reset continue button interactability
+        nameInputContinueButton.interactable = false;
+
         //check if name input is valid
+        //NOTE: this is now mostly being done through the inspector
+
+        //invalid if string is empty
+        if(string.IsNullOrEmpty(name)) return;
+
+        //this makes sure first character isn't a space
+        char[] chars = name.ToCharArray();
+        if(chars[0] == ' ') return;
 
         //update interactability of continue button
-        //nameInputContinueButton.interactable = 
+        nameInputContinueButton.interactable = true;
     }
     public void NameInputReturnButton() => anim.SetTrigger("NameInputToHome");
     public void NameInputContinueButton()

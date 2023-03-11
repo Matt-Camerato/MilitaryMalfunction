@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 [RequireComponent(typeof(Animator))]
@@ -30,10 +29,7 @@ public class MainMenuManager : MonoBehaviour
     public void ButtonPressed() => AudioSystem.Instance.ButtonSFX();
 
     //called at the end of each screen fade to transition to the game scene
-    public void StartGame()
-    {
-        //NOTE: put scene transition here
-    }
+    public void StartGame() => SceneManager.LoadScene(1);
 
     //home button methods
     public void NewGameButton() => anim.SetTrigger("HomeToNameInput");

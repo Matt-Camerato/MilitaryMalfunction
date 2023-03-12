@@ -18,7 +18,7 @@ public class IntroManager : MonoBehaviour
     private void Start()
     {
         //if player is on wave 1, start intro sequence
-        if(WaveManager.Instance.currentWave == 1) StartCoroutine(IntroDialog());
+        if(WaveManager.Instance.currentWave == 0) StartCoroutine(IntroDialog());
         else doneIntro = true; //otherwise intro is finished
     }
 

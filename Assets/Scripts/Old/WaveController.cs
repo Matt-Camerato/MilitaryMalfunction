@@ -46,7 +46,7 @@ public class WaveController : MonoBehaviour
     //death screen stuff
     private Image deathFade;
 
-    void Start()
+    private void Start()
     {
         //figure out if intro sequence needs to run depending on what waveNum equals on startup
         if (waveNum != 0)
@@ -158,7 +158,7 @@ public class WaveController : MonoBehaviour
                                     }
 
                                     //update health + armor HUD bars
-                                    player.GetComponent<PlayerController>().updateHUDBars();
+                                    //player.GetComponent<PlayerController>().updateHUDBars();
                                 }
                             }
                         }
@@ -181,7 +181,7 @@ public class WaveController : MonoBehaviour
                                 }
 
                                 //update health + armor HUD bars
-                                player.GetComponent<PlayerController>().updateHUDBars();
+                                //player.GetComponent<PlayerController>().updateHUDBars();
                             }
                         }
                     }

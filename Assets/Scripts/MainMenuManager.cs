@@ -58,8 +58,8 @@ public class MainMenuManager : MonoBehaviour
     public void NameInputReturnButton() => anim.SetTrigger("NameInputToHome");
     public void NameInputContinueButton()
     {
-        //initialize save data with player's name and wave number starting at 1
-        string saveData = nameInputField.text + "_1";
+        //initialize save data with player's name and wave number starting at 0
+        string saveData = nameInputField.text + "_0";
         PlayerPrefs.SetString("SaveData", saveData);
 
         //fade out before transitioning to game scene

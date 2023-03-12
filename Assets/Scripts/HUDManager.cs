@@ -10,7 +10,15 @@ public class HUDManager : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private TMP_Text playerNameText;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image armorBar;
+    [SerializeField] private Image reloadBar;
+    [SerializeField] private GameObject reloadBarFull;
+    [SerializeField] private GameObject settingsPanel;
+
     [SerializeField] private CanvasGroup screenFade;
+
+    [HideInInspector] public bool isPaused;
 
     private string playerName;
 
@@ -28,6 +36,29 @@ public class HUDManager : MonoBehaviour
         StartCoroutine(DoScreenFade(1, 0));
     }
 
+    public void Update()
+    {
+        //check if intro sequence is over
+        if(!IntroManager.Instance.doneIntro) return;
+
+        //toggle settings by pressing the escape key
+        if(Input.GetKeyDown(KeyCode.Escape)) ToggleSettings();
+
+
+    }
+
+    public void UpdateHUDBars(float healthFill, float armorFill, float reloadFill)
+    {
+        //update bar fill values
+        healthBar.fillAmount = healthFill;
+        armorBar.fillAmount = armorFill;
+        reloadBar.fillAmount = reloadFill;
+
+        //turn on full reload bar when fully reloaded
+        if(reloadFill <= 0) reloadBarFull.SetActive(true);
+        else reloadBarFull.SetActive(false);
+    }
+
     //fades screen from one alpha value to another 
     private IEnumerator DoScreenFade(float start, float end)
     {
@@ -42,8 +73,11 @@ public class HUDManager : MonoBehaviour
         screenFade.alpha = end;
     }
 
-    public void Update()
+    private void ToggleSettings()
     {
-
+        isPaused = !isPaused;
+        settingsPanel.SetActive(isPaused);
     }
+
+    
 }

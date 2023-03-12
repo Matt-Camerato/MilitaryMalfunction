@@ -4,42 +4,68 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
-{
-    [Header("Player Stats")]
-    public float lookSensitivity;
-    public float moveSpeed;
-    public float fireCooldownAmount;
+{   
+    public static PlayerController Instance;
+
+    [Header("Player Settings")]
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float rotateSpeed;
     public float maxHealth;
     public float maxArmor;
+    public float fireRate;
     public float regenRate;
 
     [Header("Player Info")]
     public float totalHealth;
-    public float fireCooldown = 0;
-    public bool canMove = true;
-
-    [Header("Missile")]
-    public GameObject missile;
-
-    [Header("Explosion")]
-    public ParticleSystem explosionPS;
-
-    [Header("HUD")]
-    public GameObject HUD;
-
-    [Header("SFX")]
-    public AudioSource SFXSource;
-
+    private float fireCooldown = 0;
     private float turnCooldown = 0;
-    private bool isDead = false;
 
-    void Start()
+    public bool isDead = false;
+
+    [Header("References")]
+    [SerializeField] private GameObject missilePrefab;
+    [SerializeField] private Transform missileStart;
+    [SerializeField] private ParticleSystem explosionPS;
+
+    private void Awake() => Instance = this;
+
+    private void Start()
     {
         totalHealth = maxHealth + maxArmor;
+        UpdateHUD();
     }
 
-    void Update()
+    private void Update()
     {
+        //check if paused
+        if(HUDManager.Instance.isPaused) return;
+
+        //check if dead
+        if(isDead) return;
+
+        //updates fire and turn cooldowns;
+        UpdateCooldowns();
+        UpdateHUD();
+
+        //always make player move forward at given speed
+        transform.position += transform.rotation * Vector3.up * moveSpeed * Time.deltaTime;
+
+        //rotate player with a and d keys
+        float lookRotation = Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
+        if (turnCooldown <= 0) transform.Rotate(new Vector3(0, 0, -lookRotation));
+
+        //fire missiles with the space button
+        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown == 0)
+        {
+            GameObject newMissile = Instantiate(missilePrefab, missileStart.position, transform.rotation);
+            //newMissile.GetComponent<MissileController>().HUD = HUD.GetComponent<HUDController>();
+            //newMissile.GetComponent<MissileController>().SFXSource = SFXSource;
+            //SFXSource.GetComponent<SFXController>().Shoot();
+            fireCooldown = fireRate;
+            turnCooldown = 30;
+        }
+
+        /*
         //check death explosion
         if (isDead == false)
         {
@@ -71,6 +97,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
+            
             if (Input.GetKeyDown(KeyCode.Escape) && !HUD.GetComponent<HUDController>().fadeOut)
             {
                 HUD.GetComponent<HUDController>().Settings();
@@ -92,22 +119,60 @@ public class PlayerController : MonoBehaviour
                 deletePlayer();
             }
         }
+        */
     }
 
     public void Damage(float damage)
     {
         totalHealth -= damage;
 
-        //Death check
+        //death check
         if (totalHealth <= 0)
         {
-            explosionPS.Play();
+            isDead = true;
+            HandleDeath();
         }
-
-        //update health + armor HUD bars
-        updateHUDBars();
     }
 
+    private void UpdateCooldowns()
+    {
+        //update firing cooldown if unable to fire
+        if (fireCooldown > 0) fireCooldown -= Time.deltaTime;
+
+        //update turn cooldown if unable to turn
+        if (turnCooldown != 0)
+        {
+            turnCooldown -= 100 * Time.deltaTime;
+            if (turnCooldown < 0)
+            {
+                turnCooldown = 0;
+            }
+        }
+    }
+
+    private void UpdateHUD()
+    {
+        //get normalized armor value
+        float currentArmor = totalHealth - maxHealth;
+        float armorNormalized = currentArmor / maxArmor;
+
+        //get normalized health value
+        float currentHealth = totalHealth - currentArmor;
+        float healthNormalized = currentHealth / maxHealth;
+
+        //get normalized reload value
+        float reloadNormalized = fireCooldown / fireRate;
+
+        //update HUD bars accordingly
+        HUDManager.Instance.UpdateHUDBars(healthNormalized, armorNormalized, reloadNormalized);
+    }
+
+    private void HandleDeath()
+    {
+        explosionPS.Play();
+    }
+
+    /*
     public void updateHUDBars()
     {
         //armor
@@ -126,29 +191,7 @@ public class PlayerController : MonoBehaviour
         float currentHealth = totalHealth - currentArmor;
         HUD.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = currentHealth.Remap(0, maxHealth, 0, 1);
     }
-
-    private void updateCooldowns()
-    {
-        //update firing cooldown if not able to fire
-        if (fireCooldown != 0)
-        {
-            fireCooldown -= 100 * Time.deltaTime;
-            if (fireCooldown < 0)
-            {
-                fireCooldown = 0;
-            }
-        }
-
-        //update turn cooldown if unable to turn
-        if (turnCooldown != 0)
-        {
-            turnCooldown -= 100 * Time.deltaTime;
-            if (turnCooldown < 0)
-            {
-                turnCooldown = 0;
-            }
-        }
-    }
+    */
 
     //call this function at end of death particle system
     public void deletePlayer()

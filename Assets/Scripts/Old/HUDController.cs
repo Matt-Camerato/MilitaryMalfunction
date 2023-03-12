@@ -30,6 +30,7 @@ public class HUDController : MonoBehaviour
     private GameObject weaponIcon;
     private Image levelFade;
 
+    /*
     void Start()
     {
         //setup private variables
@@ -57,9 +58,10 @@ public class HUDController : MonoBehaviour
                 else
                 {
                     fireCooldown.color = new Color(0.6f, 0.6f, 0.6f, 0.6f);
-                    fireCooldown.fillAmount = player.fireCooldown.Remap(player.fireCooldownAmount * 100, 0, 0, 1);
+                    fireCooldown.fillAmount = player.fireCooldown.Remap(player.fireRate * 100, 0, 0, 1);
                     weaponIcon.SetActive(false);
                 }
+                
             }
         }
         else
@@ -77,9 +79,8 @@ public class HUDController : MonoBehaviour
                 SceneManager.LoadScene(fadeOutScene);
             }
         }
-
-
     }
+    */
 
     [Header("Are Settings On?")]
     public bool settingsOn = false;

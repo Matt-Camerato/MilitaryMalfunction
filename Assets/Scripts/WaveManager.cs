@@ -49,11 +49,15 @@ public class WaveManager : MonoBehaviour
         //check if paused
         if(HUDManager.Instance.isPaused) return;
 
+        //check if player is dead
+        if(PlayerController.Instance.isDead) return;
+
         //handle cooldown between waves
         if(betweenWaves) DoWaveCooldown();
         else
         {
-
+            //wait for enemies to all die
+            //end wave once enemies are all dead
         }
 
     }

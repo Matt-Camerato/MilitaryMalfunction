@@ -41,6 +41,9 @@ public class HUDManager : MonoBehaviour
         //check if intro sequence is over
         if(!IntroManager.Instance.doneIntro) return;
 
+        //check if player is dead
+        if(PlayerController.Instance.isDead) return;
+
         //toggle settings by pressing the escape key
         if(Input.GetKeyDown(KeyCode.Escape)) ToggleSettings();
 
@@ -78,6 +81,4 @@ public class HUDManager : MonoBehaviour
         isPaused = !isPaused;
         settingsPanel.SetActive(isPaused);
     }
-
-    
 }

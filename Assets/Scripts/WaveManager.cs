@@ -12,9 +12,6 @@ public class WaveManager : MonoBehaviour
     [Header("Wave Settings")]
     [SerializeField] private int timeBetweenWaves = 15;
 
-    [Header("Enemy Settings")]
-    [SerializeField] private List<GameObject> enemyPrefabs = new List<GameObject>();
-
     [Header("UI Elements")]
     [SerializeField] private TMP_Text waveHeaderText;
     [SerializeField] private TMP_Text waveInfoText;
@@ -29,6 +26,7 @@ public class WaveManager : MonoBehaviour
 
         //load current wave from save data
         string saveData = PlayerPrefs.GetString("SaveData");
+        saveData = "Matt_0";
         string[] s = saveData.Split('_');
         currentWave = int.Parse(s[1]);
     }
@@ -57,7 +55,9 @@ public class WaveManager : MonoBehaviour
         else
         {
             //wait for enemies to all die
+
             //end wave once enemies are all dead
+            if(EnemyManager.Instance.EnemiesRemaining == 0) EndWave();
         }
 
     }
@@ -85,5 +85,7 @@ public class WaveManager : MonoBehaviour
     {
         betweenWaves = true;
         currentWave++;
+
+        //update player's save data with new wave number and number of enemies killed
     }
 }

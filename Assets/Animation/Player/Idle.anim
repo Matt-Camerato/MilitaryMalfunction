@@ -20,19 +20,15 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -7946737208970927482, guid: 0ce3d639277aca943a3c9d7b5c0b7236,
-        type: 3}
+      value: {fileID: -7946737208970927482, guid: 0ce3d639277aca943a3c9d7b5c0b7236, type: 3}
     - time: 0.06666667
-      value: {fileID: -4486923730469642635, guid: 0ce3d639277aca943a3c9d7b5c0b7236,
-        type: 3}
+      value: {fileID: -4486923730469642635, guid: 0ce3d639277aca943a3c9d7b5c0b7236, type: 3}
     - time: 0.13333334
-      value: {fileID: -5471059720489533080, guid: 0ce3d639277aca943a3c9d7b5c0b7236,
-        type: 3}
+      value: {fileID: -5471059720489533080, guid: 0ce3d639277aca943a3c9d7b5c0b7236, type: 3}
     - time: 0.2
-      value: {fileID: -7946737208970927482, guid: 0ce3d639277aca943a3c9d7b5c0b7236,
-        type: 3}
+      value: {fileID: -7946737208970927482, guid: 0ce3d639277aca943a3c9d7b5c0b7236, type: 3}
     attribute: m_Sprite
-    path: 
+    path: Player_sprite
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -43,7 +39,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 0
+      path: 425939637
       attribute: 0
       script: {fileID: 0}
       typeID: 212

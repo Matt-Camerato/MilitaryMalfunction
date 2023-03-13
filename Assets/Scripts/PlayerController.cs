@@ -9,14 +9,15 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Settings")]
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float rotateSpeed;
+    [SerializeField] private float turnSpeed;
     public float maxHealth;
     public float maxArmor;
     public float fireRate;
     public float regenRate;
 
     [Header("Player Info")]
-    public float totalHealth;
+    private float currentHealth;
+    private float currentArmor;
     private float fireCooldown = 0;
     private float turnCooldown = 0;
 
@@ -32,17 +33,21 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        totalHealth = maxHealth + maxArmor;
+        currentArmor = maxArmor;
+        currentHealth = maxHealth;
         UpdateHUD();
     }
 
     private void Update()
     {
-        //check if paused
-        if(HUDManager.Instance.isPaused) return;
-
+        //check if intro sequence is over
+        if(!IntroManager.Instance.doneIntro) return;
+        
         //check if dead
         if(isDead) return;
+
+        //check if paused
+        if(HUDManager.Instance.isPaused) return;
 
         //updates fire and turn cooldowns;
         UpdateCooldowns();
@@ -52,27 +57,41 @@ public class PlayerController : MonoBehaviour
         transform.position += transform.rotation * Vector3.up * moveSpeed * Time.deltaTime;
 
         //rotate player with a and d keys
-        float lookRotation = Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
+        float lookRotation = Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime;
         if (turnCooldown <= 0) transform.Rotate(new Vector3(0, 0, -lookRotation));
 
+        //regenerate player health
+        if(currentHealth < maxHealth) currentHealth += Time.deltaTime * regenRate;
+
         //fire missiles with the space button
-        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown == 0)
+        if (Input.GetKeyDown(KeyCode.Space) && fireCooldown <= 0)
         {
             GameObject newMissile = Instantiate(missilePrefab, missileStart.position, transform.rotation);
-            //newMissile.GetComponent<MissileController>().HUD = HUD.GetComponent<HUDController>();
-            //newMissile.GetComponent<MissileController>().SFXSource = SFXSource;
-            //SFXSource.GetComponent<SFXController>().Shoot();
+            AudioSystem.Instance.FireSFX(); //play missile firing SFX
             fireCooldown = fireRate;
-            turnCooldown = 30;
+            turnCooldown = 0.3f;
         }
     }
 
     public void Damage(float damage)
     {
-        totalHealth -= damage;
+        //deal damage to armor, then health
+        float healthDamage = currentArmor - damage;
+        if(healthDamage >= 0)
+        {
+            //if only armor is damaged
+            currentArmor = healthDamage;
+            return;
+        }
+        else
+        {
+            //if health is damaged through armor
+            currentArmor = 0;
+            currentHealth += healthDamage;
+        }
 
         //death check
-        if (totalHealth <= 0)
+        if (currentHealth <= 0)
         {
             HandleDeath();
             isDead = true;
@@ -85,31 +104,18 @@ public class PlayerController : MonoBehaviour
         if (fireCooldown > 0) fireCooldown -= Time.deltaTime;
 
         //update turn cooldown if unable to turn
-        if (turnCooldown != 0)
-        {
-            turnCooldown -= 100 * Time.deltaTime;
-            if (turnCooldown < 0)
-            {
-                turnCooldown = 0;
-            }
-        }
+        if (turnCooldown > 0) turnCooldown -= Time.deltaTime;
     }
 
     private void UpdateHUD()
     {
-        //get normalized armor value
-        float currentArmor = totalHealth - maxHealth;
-        float armorNormalized = currentArmor / maxArmor;
-
-        //get normalized health value
-        float currentHealth = totalHealth - currentArmor;
-        float healthNormalized = currentHealth / maxHealth;
-
-        //get normalized reload value
-        float reloadNormalized = fireCooldown / fireRate;
+        //get normalized armor, health, and reload values
+        float armor = currentArmor / maxArmor;
+        float health = currentHealth / maxHealth;
+        float reload = fireCooldown / fireRate;
 
         //update HUD bars accordingly
-        HUDManager.Instance.UpdateHUDBars(healthNormalized, armorNormalized, reloadNormalized);
+        HUDManager.Instance.UpdateHUDBars(health, armor, reload);
     }
 
     private void HandleDeath()

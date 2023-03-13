@@ -134,6 +134,7 @@ public class WaveController : MonoBehaviour
                         //this runs during each wave
                         if (enemiesRemaining == 0)
                         {
+                            /*
                             if (waveCooldown == 0)
                             {
                                 nextWave();
@@ -161,12 +162,13 @@ public class WaveController : MonoBehaviour
                                     //player.GetComponent<PlayerController>().updateHUDBars();
                                 }
                             }
+                            */
                         }
                         else
                         {
                             //this runs throughout entirety of each wave
 
-
+                            /*
                             //update enemies remaining counter
                             HUD.transform.GetChild(3).GetComponent<TMP_Text>().text = "Enemies Remaining: " + (enemiesRemaining).ToString();
 
@@ -183,6 +185,8 @@ public class WaveController : MonoBehaviour
                                 //update health + armor HUD bars
                                 //player.GetComponent<PlayerController>().updateHUDBars();
                             }
+                            
+                            */
                         }
                     }
                     else
@@ -343,11 +347,11 @@ public class WaveController : MonoBehaviour
                 int spawnedEnemyNum = (int)Mathf.Floor(Random.Range(0, possibleEnemies.Count));
                 GameObject randomEnemy = possibleEnemies[spawnedEnemyNum];
                 GameObject spawnedEnemy = Instantiate(randomEnemy, randomSpawnLocations[j], Quaternion.identity);
-                spawnedEnemy.GetComponent<EnemyController>().player = player;
-                spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
-                spawnedEnemy.GetComponent<EnemyController>().enemyNum = spawnedEnemyNum;
-                spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
-                spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
+                //spawnedEnemy.GetComponent<EnemyController>().player = player;
+                //spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
+                //spawnedEnemy.GetComponent<EnemyController>().enemyNum = spawnedEnemyNum;
+                //spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
+                //spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
             }
         }
         else
@@ -358,22 +362,22 @@ public class WaveController : MonoBehaviour
             for (int j = 0; j < currentEnemyCount; j++)
             {
                 GameObject spawnedEnemy = Instantiate(currentEnemy, randomSpawnLocations[j], Quaternion.identity);
-                spawnedEnemy.GetComponent<EnemyController>().player = player;
-                spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
-                spawnedEnemy.GetComponent<EnemyController>().enemyNum = possibleEnemies.IndexOf(currentEnemy);
-                spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
-                spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
+                //spawnedEnemy.GetComponent<EnemyController>().player = player;
+                //spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
+                //spawnedEnemy.GetComponent<EnemyController>().enemyNum = possibleEnemies.IndexOf(currentEnemy);
+                //spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
+                //spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
             }
 
             //spawns next enemies
             for (int k = 0; k < nextEnemyCount; k++)
             {
                 GameObject spawnedEnemy = Instantiate(nextEnemy, randomSpawnLocations[currentEnemyCount + k], Quaternion.identity);
-                spawnedEnemy.GetComponent<EnemyController>().player = player;
-                spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
-                spawnedEnemy.GetComponent<EnemyController>().enemyNum = possibleEnemies.IndexOf(nextEnemy);
-                spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
-                spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
+                //spawnedEnemy.GetComponent<EnemyController>().player = player;
+                //spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
+                //spawnedEnemy.GetComponent<EnemyController>().enemyNum = possibleEnemies.IndexOf(nextEnemy);
+                //spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
+                //spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
             }
 
             //plus spawns "waveSegment" amount of random tanks from tanks introduced (all tanks in possible tanks array less than or equal to current tank)
@@ -384,11 +388,11 @@ public class WaveController : MonoBehaviour
                     int spawnedEnemyNum = (int)Mathf.Floor(Random.Range(0, possibleEnemies.IndexOf(currentEnemy) + 1));
                     GameObject randomEnemy = possibleEnemies[spawnedEnemyNum];
                     GameObject spawnedEnemy = Instantiate(randomEnemy, randomSpawnLocations[currentEnemyCount + nextEnemyCount + l], Quaternion.identity);
-                    spawnedEnemy.GetComponent<EnemyController>().player = player;
-                    spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
-                    spawnedEnemy.GetComponent<EnemyController>().enemyNum = spawnedEnemyNum;
-                    spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
-                    spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
+                    //spawnedEnemy.GetComponent<EnemyController>().player = player;
+                    //spawnedEnemy.GetComponent<EnemyController>().HUD = HUD.GetComponent<HUDController>();
+                    //spawnedEnemy.GetComponent<EnemyController>().enemyNum = spawnedEnemyNum;
+                    //spawnedEnemy.GetComponent<EnemyController>().Ground = ground;
+                    //spawnedEnemy.GetComponent<EnemyController>().SFXSource = SFXSource;
                 }
             }
         }

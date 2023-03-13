@@ -35,17 +35,19 @@ public class IntroManager : MonoBehaviour
         //set dialog text
         introDialogText.text = '"' + "Reports show massive amounts of enemy vehicles converging " +
         "on your location, so it doesn't look like you'll be getting out of this one alive..." + '"';
-
+        
+        yield return new WaitForSeconds(0.1f);
         while(!Input.GetKeyDown(KeyCode.Space)) yield return null; //wait for user input
 
         //set dialog text
         introDialogText.text = '"' + "Lucky for you, that doesn't matter! You're a soldier and that means NO GIVING UP! " +
         "You may not be able to stop that tank, but you can still turn and fire that cannon of yours, so GIVE 'EM HELL!" + '"';
 
+        yield return new WaitForSeconds(0.1f);
         while(!Input.GetKeyDown(KeyCode.Space)) yield return null; //wait for user input
 
         //end intro dialog sequence
-        introDialogObj.SetActive(true);
+        introDialogObj.SetActive(false);
         doneIntro = true;
     }
 }

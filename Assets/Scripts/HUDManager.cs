@@ -33,7 +33,7 @@ public class HUDManager : MonoBehaviour
         playerNameText.text = playerName;
 
         //cue screen fade-in
-        StartCoroutine(DoScreenFade(1, 0));
+        StartCoroutine(DoScreenFade(1, 0, 3));
     }
 
     public void Update()
@@ -46,8 +46,6 @@ public class HUDManager : MonoBehaviour
 
         //toggle settings by pressing the escape key
         if(Input.GetKeyDown(KeyCode.Escape)) ToggleSettings();
-
-
     }
 
     public void UpdateHUDBars(float healthFill, float armorFill, float reloadFill)
@@ -62,15 +60,15 @@ public class HUDManager : MonoBehaviour
         else reloadBarFull.SetActive(false);
     }
 
-    //fades screen from one alpha value to another 
-    private IEnumerator DoScreenFade(float start, float end)
+    //fades screen from one alpha value to another over given duration
+    private IEnumerator DoScreenFade(float start, float end, float duration)
     {
         float a = start;
         while(a != end)
         {
             screenFade.alpha = a;
-            if(a > end) a -= Time.deltaTime;
-            else a += Time.deltaTime;
+            if(a > end) a -= (Time.deltaTime / duration);
+            else a += (Time.deltaTime / duration);
             yield return null;
         }
         screenFade.alpha = end;

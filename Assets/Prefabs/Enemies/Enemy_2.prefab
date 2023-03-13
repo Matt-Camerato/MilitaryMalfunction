@@ -4945,8 +4945,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  - {fileID: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9763,8 +9762,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  - {fileID: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9929,7 +9927,7 @@ GameObject:
   - component: {fileID: 2442792995105454923}
   - component: {fileID: 2442792995105454900}
   - component: {fileID: 2442792995105454901}
-  - component: {fileID: 2442792995105454902}
+  - component: {fileID: 6503405511649476510}
   m_Layer: 9
   m_Name: Enemy_2
   m_TagString: Enemy
@@ -10062,7 +10060,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &2442792995105454902
+--- !u!114 &6503405511649476510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10071,20 +10069,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2442792995105454903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 457cc6a42daae1f47abc50f3dc43ccf5, type: 3}
+  m_Script: {fileID: 11500000, guid: c02d9fac1a1f63e44b60476e5cf24016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyNum: 2
-  lookSensitivity: 5
   moveSpeed: 0.75
-  shotRange: 16
-  fireCooldownAmount: 5
+  turnSpeed: 5
+  range: 16
+  fireRate: 5
   maxHealth: 200
-  player: {fileID: 0}
-  missile: {fileID: 7622163469548694603, guid: 8a3636807cd678b4784ce29dc11a6c2a, type: 3}
-  HUD: {fileID: 0}
-  Ground: {fileID: 0}
-  SFXSource: {fileID: 0}
+  missileStart: {fileID: 2442792994914047404}
+  missilePrefab: {fileID: 7622163469548694603, guid: 8a3636807cd678b4784ce29dc11a6c2a, type: 3}
+  explosionPS: {fileID: 2442792994687561595}
+  enemyCanvas: {fileID: 2442792993616043376}
+  enemyHealthBar: {fileID: 2442792993751553383}
 --- !u!1 &2442792995192766053
 GameObject:
   m_ObjectHideFlags: 0

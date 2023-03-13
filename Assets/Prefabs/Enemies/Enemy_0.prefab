@@ -4770,8 +4770,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  - {fileID: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4974,7 +4973,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 10
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &3333623122160107577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5223,20 +5222,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3333623122812167804}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 457cc6a42daae1f47abc50f3dc43ccf5, type: 3}
+  m_Script: {fileID: 11500000, guid: c02d9fac1a1f63e44b60476e5cf24016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyNum: 0
-  lookSensitivity: 6
   moveSpeed: 1.5
-  shotRange: 8
-  fireCooldownAmount: 5
+  turnSpeed: 6
+  range: 8
+  fireRate: 5
   maxHealth: 100
-  player: {fileID: 0}
-  missile: {fileID: 7622163469548694603, guid: 8a3636807cd678b4784ce29dc11a6c2a, type: 3}
-  HUD: {fileID: 0}
-  Ground: {fileID: 0}
-  SFXSource: {fileID: 0}
+  missileStart: {fileID: 3333623123018238183}
+  missilePrefab: {fileID: 7622163469548694603, guid: 8a3636807cd678b4784ce29dc11a6c2a, type: 3}
+  explosionPS: {fileID: 3333623123227963952}
+  enemyCanvas: {fileID: 3333623122160107579}
+  enemyHealthBar: {fileID: 3333623122026956844}
 --- !u!1 &3333623123003654488
 GameObject:
   m_ObjectHideFlags: 0
@@ -10114,8 +10112,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  - {fileID: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

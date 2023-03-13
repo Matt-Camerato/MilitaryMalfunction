@@ -49,5 +49,6 @@ public class IntroManager : MonoBehaviour
         //end intro dialog sequence
         introDialogObj.SetActive(false);
         doneIntro = true;
+        WaveManager.Instance.currentWave = 1;
     }
 }

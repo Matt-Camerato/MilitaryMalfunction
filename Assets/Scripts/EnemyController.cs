@@ -60,6 +60,7 @@ public class EnemyController : MonoBehaviour
             cc.enabled = false;
             enemyCanvas.enabled = false;
             exploded = true;
+            return;
         }
 
         //get rid of enemy after explosion
@@ -95,9 +96,9 @@ public class EnemyController : MonoBehaviour
                 {
                     GameObject missileObj = Instantiate(missilePrefab, transform.GetChild(0).position, transform.rotation);
                     missileObj.GetComponent<MissileController>().target = hit.collider.gameObject;
-                    AudioSystem.Instance.FireSFX(); //play missile firing SFX
                     fireCooldown = fireRate;
                     turnCooldown = 0.3f;
+                    AudioSystem.Instance.FireSFX(); //play missile firing SFX
                 }
             }
             else

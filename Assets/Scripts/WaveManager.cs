@@ -26,7 +26,6 @@ public class WaveManager : MonoBehaviour
 
         //load current wave from save data
         string saveData = PlayerPrefs.GetString("SaveData");
-        saveData = "Matt_0";
         string[] s = saveData.Split('_');
         currentWave = int.Parse(s[1]);
     }
@@ -54,19 +53,20 @@ public class WaveManager : MonoBehaviour
         if(betweenWaves) DoWaveCooldown();
         else
         {
-            //wait for enemies to all die
+            //update enemies remaining counter
+            waveInfoText.text = EnemyManager.Instance.EnemiesRemaining + " enemies remaining";
 
             //end wave once enemies are all dead
             if(EnemyManager.Instance.EnemiesRemaining == 0) EndWave();
         }
-
     }
 
     private void DoWaveCooldown()
     {
         if(waveCooldown > 0)
         {
-            //update wave info text
+            //update wave header and info text
+            waveHeaderText.text = "Get Ready...";
             waveInfoText.text = "Next wave will begin in " + Mathf.Ceil(waveCooldown);
             waveCooldown -= Time.deltaTime;
         }
@@ -77,15 +77,23 @@ public class WaveManager : MonoBehaviour
     {
         betweenWaves = false;
 
-        //spawn enemies
+        //update wave number text
+        waveHeaderText.text = "Wave " + currentWave;
 
+        //spawn enemies
+        EnemyManager.Instance.SpawnEnemies();
     }
 
     private void EndWave()
     {
         betweenWaves = true;
+        waveCooldown = 15;
         currentWave++;
 
         //update player's save data with new wave number and number of enemies killed
+        string saveData = PlayerPrefs.GetString("SaveData");
+        string[] s = saveData.Split('_');
+        string newSave = s[0] + '_' + currentWave + '_' + EnemyManager.Instance.EnemiesKilled;
+        PlayerPrefs.SetString("SaveData", newSave);
     }
 }

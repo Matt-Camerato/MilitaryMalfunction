@@ -28,15 +28,6 @@ public class MissileController : MonoBehaviour
 
     private void Update()
     {
-        //check if exploded
-        if(!exploded && explosionPS.particleCount > 0)
-        {
-            sr.enabled = false;
-            bc.enabled = false;
-            AudioSystem.Instance.DamageSFX();
-            exploded = true;
-        }
-
         //get rid of missile after explosion
         if(exploded)
         {
@@ -44,12 +35,21 @@ public class MissileController : MonoBehaviour
             return;
         }
 
+        //check if exploded
+        if(!exploded && explosionPS.particleCount > 0)
+        {
+            sr.enabled = false;
+            bc.enabled = false;
+            exploded = true;
+            //AudioSystem.Instance?.DamageSFX();
+            return;
+        }
+
         //check if paused
         if(HUDManager.Instance.isPaused) return;
 
-        //updates fly time and destroys missile if flying for too long
-        flyTime -= 100 * Time.deltaTime;
-        if (flyTime <= 0) explosionPS.Play();
+        //moves missile forward
+        transform.position += transform.rotation * Vector3.up * moveSpeed * Time.deltaTime;
 
         //tracks target if heat seeking missile
         if (heatSeeking && target != null)
@@ -60,8 +60,9 @@ public class MissileController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookAt, 2 * Time.deltaTime);
         }
 
-        //moves missile forward
-        transform.position += transform.rotation * Vector3.up * moveSpeed * Time.deltaTime;
+        //updates fly time and destroys missile if flying for too long
+        flyTime -= 100 * Time.deltaTime;
+        if (flyTime <= 0) explosionPS.Play();
 
         //delete missile if not in map
         if (Mathf.Abs(transform.position.x) > 50 || Mathf.Abs(transform.position.y) > 50) explosionPS.Play();
@@ -73,7 +74,7 @@ public class MissileController : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             //damage player and destroy missile
-            collision.GetComponent<PlayerController>().Damage(damage);
+            collision.GetComponentInParent<PlayerController>().Damage(damage);
             explosionPS.Play();
         }
         else if(collision.gameObject.tag == "Enemy")
@@ -84,7 +85,4 @@ public class MissileController : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Wall") explosionPS.Play(); //just destroy missile
     }
-
-    //destroys missile at end of explosion
-    private void DeleteMissile() => Destroy(gameObject);
 }

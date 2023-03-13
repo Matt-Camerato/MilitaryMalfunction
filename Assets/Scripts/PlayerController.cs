@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && fireCooldown <= 0)
         {
             GameObject newMissile = Instantiate(missilePrefab, missileStart.position, transform.rotation);
-            AudioSystem.Instance.FireSFX(); //play missile firing SFX
             fireCooldown = fireRate;
             turnCooldown = 0.3f;
+            AudioSystem.Instance?.FireSFX(); //play missile firing SFX
         }
     }
 

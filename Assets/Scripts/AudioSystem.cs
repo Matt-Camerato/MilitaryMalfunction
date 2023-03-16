@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioSystem : MonoBehaviour
@@ -20,7 +18,11 @@ public class AudioSystem : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        //set singleton instance
+        if(Instance == null) Instance = this;
+        else Destroy(gameObject);
+        
+        //audio system persists across scenes
         DontDestroyOnLoad(gameObject);
     }
 

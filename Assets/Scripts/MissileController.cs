@@ -41,7 +41,7 @@ public class MissileController : MonoBehaviour
             sr.enabled = false;
             bc.enabled = false;
             exploded = true;
-            //AudioSystem.Instance?.DamageSFX();
+            AudioSystem.Instance?.DamageSFX();
             return;
         }
 

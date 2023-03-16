@@ -19,13 +19,15 @@ public class WaveManager : MonoBehaviour
     private bool betweenWaves = true;
     private float waveCooldown;
 
+    private string saveData;
+
     private void Awake()
     {
         //save singleton reference
         Instance = this;
 
         //load current wave from save data
-        string saveData = PlayerPrefs.GetString("SaveData");
+        saveData = PlayerPrefs.GetString("SaveData");
         string[] s = saveData.Split('_');
         currentWave = int.Parse(s[1]);
     }
@@ -90,10 +92,18 @@ public class WaveManager : MonoBehaviour
         waveCooldown = 15;
         currentWave++;
 
-        //update player's save data with new wave number and number of enemies killed
-        string saveData = PlayerPrefs.GetString("SaveData");
+        //update player's save data with new wave number
+        saveData = PlayerPrefs.GetString("SaveData");
         string[] s = saveData.Split('_');
-        string newSave = s[0] + '_' + currentWave + '_' + EnemyManager.Instance.EnemiesKilled;
+        string newSave = s[0] + '_' + currentWave;
+        
+        //also update number of each enemy type killed
+        for(int i = 0; i < EnemyManager.Instance.EnemiesKilled.Count; i++)
+        {
+            newSave = newSave + '_' + EnemyManager.Instance.EnemiesKilled[i].ToString();
+        }
+        
         PlayerPrefs.SetString("SaveData", newSave);
+        saveData = newSave;
     }
 }

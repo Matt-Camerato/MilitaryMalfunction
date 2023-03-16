@@ -10,6 +10,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Button continueGameButton;
     [SerializeField] private Button nameInputContinueButton;
     [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private Slider musicSlider, sfxSlider;
 
     private Animator anim;
     private bool hasSaveInfo = false;
@@ -22,7 +23,9 @@ public class MainMenuManager : MonoBehaviour
         hasSaveInfo = !PlayerPrefs.GetString("SaveData", "null").Equals("null");
         continueGameButton.interactable = hasSaveInfo;
 
-        //NOTE: update settings slider values based on static values in AudioSystem
+        //update slider values based on static values in AudioSystem
+        musicSlider.value = AudioSystem.MusicVolume;
+        sfxSlider.value = AudioSystem.SFXVolume;
     }
 
     //used by each button to cue SFX
@@ -67,7 +70,7 @@ public class MainMenuManager : MonoBehaviour
     }
 
     //settings methods
-    public void OnMusicSliderChanged(float value) => AudioSystem.Instance.UpdateMusicVolume(value);
-    public void OnSFXSliderChanged(float value) => AudioSystem.Instance.UpdateSFXVolume(value);
+    public void OnMusicSliderChanged(float value) => AudioSystem.Instance?.UpdateMusicVolume(value);
+    public void OnSFXSliderChanged(float value) => AudioSystem.Instance?.UpdateSFXVolume(value);
     public void SettingsReturnButton() => anim.SetTrigger("SettingsToHome");
 }

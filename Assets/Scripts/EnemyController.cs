@@ -8,6 +8,7 @@ using TMPro;
 public class EnemyController : MonoBehaviour
 {
     [Header("Enemy Settings")]
+    [SerializeField] private int enemyIndex;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float turnSpeed;
     [SerializeField] private float range;
@@ -98,7 +99,7 @@ public class EnemyController : MonoBehaviour
                     missileObj.GetComponent<MissileController>().target = hit.collider.gameObject;
                     fireCooldown = fireRate;
                     turnCooldown = 0.3f;
-                    AudioSystem.Instance.FireSFX(); //play missile firing SFX
+                    AudioSystem.Instance?.FireSFX(); //play missile firing SFX
                 }
             }
             else
@@ -121,12 +122,18 @@ public class EnemyController : MonoBehaviour
         //death check
         if (health <= 0)
         {
-            //increment enemies killed and decrement enemies remaining
-            EnemyManager.Instance.EnemiesKilled++;
+            //decrement enemies remaining
             EnemyManager.Instance.EnemiesRemaining--;
+            
+            //increment enemies killed counter (by enemy type)
+            if(enemyIndex >= EnemyManager.Instance.EnemiesKilled.Count)
+            {
+                EnemyManager.Instance.EnemiesKilled.Add(1);
+            }
+            else EnemyManager.Instance.EnemiesKilled[enemyIndex]++;
 
             //explode enemy
-            explosionPS.Play();         
+            explosionPS.Play();     
         }
     }
 

@@ -7,8 +7,8 @@ public class EnemyManager : MonoBehaviour
     public static EnemyManager Instance;
 
     [Header("Enemy Info")]
-    public int EnemiesKilled = 0;
     public int EnemiesRemaining = 0;
+    public List<int> EnemiesKilled = new List<int>();
 
     [SerializeField] private List<GameObject> enemyPrefabs = new List<GameObject>();
     [SerializeField] private List<Transform> spawnPositions = new List<Transform>();
@@ -26,6 +26,19 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake() => Instance = this;
 
+    private void Start()
+    {
+        //initialize enemies killed list from save data
+        string saveData = PlayerPrefs.GetString("SaveData");
+        string[] s = saveData.Split('_');
+        for(int i = 2; i < s.Length; i++)
+        {
+            //get enemy type and # of kills
+            int numKilled = int.Parse(s[i]);
+            EnemiesKilled.Add(numKilled);
+        }
+    }
+
     //determines which enemies to spawn based on current wave number
     public void SpawnEnemies()
     {
@@ -39,7 +52,7 @@ public class EnemyManager : MonoBehaviour
         if(currentEnemyType >= enemyPrefabs.Count) currentEnemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
         else currentEnemy = enemyPrefabs[currentEnemyType];
 
-        //if nwe enemy doesn't exist at index, choose a random enemy type
+        //if new enemy doesn't exist at index, choose a random enemy type
         if(currentEnemyType + 1 >= enemyPrefabs.Count) newEnemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
         else newEnemy = enemyPrefabs[currentEnemyType + 1];
         

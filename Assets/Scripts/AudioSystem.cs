@@ -5,7 +5,8 @@ using UnityEngine;
 public class AudioSystem : MonoBehaviour
 {
     public static AudioSystem Instance;
-    public static float MusicVolume, SFXVolume;
+    public static float MusicVolume = 0.75f;
+    public static float SFXVolume = 0.75f;
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
@@ -26,7 +27,6 @@ public class AudioSystem : MonoBehaviour
     public void UpdateMusicVolume(float value)
     {
         musicSource.volume = value;
-        
         MusicVolume = value;
     }
 
@@ -34,7 +34,6 @@ public class AudioSystem : MonoBehaviour
     {
         sfxSource.volume = value;
         tankSource.volume = value;
-
         SFXVolume = value;
     }
 

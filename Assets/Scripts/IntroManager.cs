@@ -49,6 +49,13 @@ public class IntroManager : MonoBehaviour
         //end intro dialog sequence
         introDialogObj.SetActive(false);
         doneIntro = true;
+
+        //start first wave and turn on tank noise
         WaveManager.Instance.currentWave = 1;
+        string saveData = PlayerPrefs.GetString("SaveData");
+        string[] s = saveData.Split('_');
+        string newSave = s[0] + '_' + 1;
+        PlayerPrefs.SetString("SaveData", newSave);
+        AudioSystem.Instance?.ToggleTankNoise();
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class HUDManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Image reloadBar;
     [SerializeField] private GameObject reloadBarFull;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private Slider musicSlider, sfxSlider;
 
     [SerializeField] private CanvasGroup screenFade;
 
@@ -29,8 +31,12 @@ public class HUDManager : MonoBehaviour
         //load player name from save data and update HUD
         string saveData = PlayerPrefs.GetString("SaveData");
         string[] s = saveData.Split('_');
-        playerName = "Sgt. " + s[0];
-        playerNameText.text = playerName;
+        playerName = s[0];
+        playerNameText.text = "Sgt. " + playerName;
+
+        //update slider values based on static values in AudioSystem
+        musicSlider.value = AudioSystem.MusicVolume;
+        sfxSlider.value = AudioSystem.SFXVolume;
 
         //cue screen fade-in
         StartCoroutine(DoScreenFade(1, 0, 3));
@@ -48,6 +54,7 @@ public class HUDManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape)) ToggleSettings();
     }
 
+    //called by player controller to update HUD bar fill values
     public void UpdateHUDBars(float healthFill, float armorFill, float reloadFill)
     {
         //update bar fill values
@@ -60,11 +67,46 @@ public class HUDManager : MonoBehaviour
         else reloadBarFull.SetActive(false);
     }
 
+    //used by each button to cue SFX
+    public void ButtonPressed() => AudioSystem.Instance?.ButtonSFX();
+    
+    //public methods for UI elements
+    public void OnMusicSliderChanged(float value) => AudioSystem.Instance?.UpdateMusicVolume(value);
+    public void OnSFXSliderChanged(float value) => AudioSystem.Instance?.UpdateSFXVolume(value);
+    public void PlayAgainButton() => StartCoroutine(PlayAgain());
+    public void SaveAndQuitButton() => StartCoroutine(Quit());
+    public void QuitButton()
+    {
+        //reset save data first
+        PlayerPrefs.SetString("SaveData", "null");
+        StartCoroutine(Quit());
+    }
+
+    //fades screen to black, then reset's player save and reloads scene
+    private IEnumerator PlayAgain()
+    {
+        yield return DoScreenFade(0, 1, 3);
+        
+        //reset save data
+        string saveData = playerName + "_1";
+        PlayerPrefs.SetString("SaveData", saveData);
+
+        //reload scene
+        SceneManager.LoadScene(1);
+    }
+
+    //fades screen to black, then switches scenes
+    private IEnumerator Quit()
+    {
+        yield return DoScreenFade(0, 1, 3);
+        SceneManager.LoadScene(0);
+    }
+
     //fades screen from one alpha value to another over given duration
     private IEnumerator DoScreenFade(float start, float end, float duration)
     {
         float a = start;
-        while(a != end)
+        while(Mathf.Abs(a - end) < 0.0001f)
         {
             screenFade.alpha = a;
             if(a > end) a -= (Time.deltaTime / duration);

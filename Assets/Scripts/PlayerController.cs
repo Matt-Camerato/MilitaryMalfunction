@@ -22,12 +22,14 @@ public class PlayerController : MonoBehaviour
     private float turnCooldown = 0;
 
     public bool isDead = false;
+    private bool exploded = false;
 
     [Header("References")]
     [SerializeField] private SpriteRenderer playerSprite;   
     [SerializeField] private Transform missileStart;
     [SerializeField] private GameObject missilePrefab;
     [SerializeField] private ParticleSystem explosionPS;
+    [SerializeField] private GameObject deathScreenPanel;
 
     private void Awake() => Instance = this;
 
@@ -42,9 +44,20 @@ public class PlayerController : MonoBehaviour
     {
         //check if intro sequence is over
         if(!IntroManager.Instance.doneIntro) return;
-        
+
         //check if dead
         if(isDead) return;
+        
+        //check if exploded
+        if(exploded) 
+        {
+            if(explosionPS.particleCount == 0 )
+            {
+                deathScreenPanel.SetActive(true);
+                isDead = true;
+            }
+            return;
+        }
 
         //check if paused
         if(HUDManager.Instance.isPaused) return;
@@ -94,7 +107,7 @@ public class PlayerController : MonoBehaviour
         if (currentHealth <= 0)
         {
             HandleDeath();
-            isDead = true;
+            exploded = true;
         }
     }
 
@@ -120,7 +133,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDeath()
     {
+        //make player's tank blow up and stop tank noise
         playerSprite.enabled = false;
         explosionPS.Play();
+        AudioSystem.Instance?.ToggleTankNoise();
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2493684442481494774}
   - component: {fileID: 7552889726821548925}
   - component: {fileID: 8232615271445625852}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4829,7 +4829,7 @@ GameObject:
   - component: {fileID: 2454764692002371974}
   - component: {fileID: 4918596220094347151}
   - component: {fileID: 7416636621696519716}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Missile_heatSeeking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4956,7 +4956,7 @@ GameObject:
   - component: {fileID: 3049447846826473733}
   - component: {fileID: 1732987365048276485}
   - component: {fileID: 72346229417845879}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Remains
   m_TagString: Untagged
   m_Icon: {fileID: 0}

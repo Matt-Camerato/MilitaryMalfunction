@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4329046877475998216}
   - component: {fileID: 2600280804634765465}
   - component: {fileID: 5646689807583312255}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Remains
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4828,7 +4828,7 @@ GameObject:
   - component: {fileID: 2454764692002371974}
   - component: {fileID: 4918596220094347151}
   - component: {fileID: 7416636621696519716}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Missile_default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4955,7 +4955,7 @@ GameObject:
   - component: {fileID: 568199880754993226}
   - component: {fileID: 6310697389533795423}
   - component: {fileID: 1036915893584958540}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}

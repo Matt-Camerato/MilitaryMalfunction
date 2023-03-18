@@ -135,4 +135,15 @@ public class PlayerController : MonoBehaviour
         explosionPS.Play();
         AudioSystem.Instance?.ToggleTankNoise();
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        //check if grabbed armor pickup
+        if(other.CompareTag("ArmorPickup"))
+        {
+            //repair 25% of the player's armor and destroy pickup
+            currentArmor = Mathf.Clamp(currentArmor + (maxArmor / 4), 0, maxArmor);
+            Destroy(other.gameObject);
+        }
+    }
 }
